@@ -1,7 +1,7 @@
 import { createStitches } from "@stitches/react";
 
 export const {
-    config,
+  config,
   styled,
   css,
   globalCss,
