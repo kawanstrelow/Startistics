@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react'
 import { HomeContainer, InputText, SearchField } from '../styles/pages/home'
 import { getId } from '../utils/getIds'
 import { FilterBox } from './components/FilterBox'
+import { Summary } from './components/Summary'
 import { VideoCard } from './components/VideoCard'
 
 export default function Home() {
@@ -16,7 +17,7 @@ export default function Home() {
 
     if (videosIds !== '') {
       axios
-        .get(`https://www.googleapis.com/youtube/v3/videos?part=id,snippet,contentDetails,player,recordingDetails,statistics,status,topicDetails&key=##&id=${videosIds}`)
+        .get(`https://www.googleapis.com/youtube/v3/videos?part=id,snippet,contentDetails,player,recordingDetails,statistics,status,topicDetails&key=AIzaSyA_9Kl-JGLLwmH1tV3h07t4KlIuf4ANnhQ&id=${videosIds}`)
         .then(response => setVideos(response.data.items))
     }
   }
@@ -24,11 +25,15 @@ export default function Home() {
   async function getVideosIds(url: string) {
     await axios.get(url)
         .then(response => setVideosIds(getId(response.data.items)))
+    
+    await axios.get('https://restcountries.com/v2/all')
+        .then(res => console.log(res.data))
   }
 
   async function handleInput(text: any) {
     event?.preventDefault()
-    getVideosIds(`https://www.googleapis.com/youtube/v3/search?part=id,snippet&key=##&q=${text.target[0].value}&order=viewCount`)
+
+    getVideosIds(`https://www.googleapis.com/youtube/v3/search?part=id,snippet&key=AIzaSyA_9Kl-JGLLwmH1tV3h07t4KlIuf4ANnhQ&q=${text.target[0].value}&order=viewCount`)
   }
 
   useEffect(() => {
@@ -53,6 +58,7 @@ export default function Home() {
         <title>Startistics</title>
       </Head>
       <HomeContainer>
+        <Summary></Summary>
         <SearchField onSubmit={handleInput}>
           <InputText minLength={3} id='searchterm' placeholder='Coloque o nome do canal'/>
           <button type='submit'>Buscar</button>

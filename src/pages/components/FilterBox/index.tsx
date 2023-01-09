@@ -16,6 +16,8 @@ export function FilterBox() {
         getAllCountries()
     }, [])
 
+    console.log(countriesList)
+
     return (
         <FilterBoxContainer>
             <div>
